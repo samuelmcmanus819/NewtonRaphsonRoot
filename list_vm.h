@@ -1,7 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "list_model.h"
-
+#include <stdio.h>
 /*
  * Name: PrintList
  * Purpose: Takes in a pointer to a list's head node and
@@ -11,10 +9,10 @@
  * Used By: main
  * Date: August 12, 2020
  */
-void PrintList(struct Node *head)
+void PrintList(struct Node** head)
 {
 	//Set pt to the head node
-	Node *pt = head;
+	Node *pt = *head;
 	//Read through every node in the list
 	if(pt != NULL){
 		printf("%d", pt->data);
@@ -35,7 +33,7 @@ void PrintList(struct Node *head)
  * 	       to hold the exponent of x
  * @param data: The non-unique value in the list used to hold the 
  * 		coefficient of x
- * Used By: main
+ * Used By: main, Newton.h
  * Date: August 12, 2020
  */
 //Takes in the value of head and 2 integers to insert into the head node
@@ -60,12 +58,14 @@ void InsertHead(struct Node** head, int key, int data)
  * Used By: main
  * Date: August 12, 2020
  */ 
-void InsertTail(Node *pt, int key, int data)
+void InsertTail(Node** pt, int key, int data)
 {
 	struct Node *node = (struct Node*)malloc(sizeof(struct Node));
+	struct Node *ptPointer = (struct Node*)malloc(sizeof(struct Node));
+	ptPointer = *pt;
 	node->key = key;
 	node->data = data;
-	while(pt->next != NULL)
-		pt = pt->next;
-	pt->next = node;
+	while(ptPointer->next != NULL)
+		ptPointer = ptPointer->next;
+	ptPointer->next = node;
 }

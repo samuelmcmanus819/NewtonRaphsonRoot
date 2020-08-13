@@ -8,7 +8,7 @@
 struct Function;
 typedef struct Function Function;
 struct Function{
-	double x;
-	double fx;
-	double fpx;
-}
+	long double x;
+	long double fx;
+	long double fpx;
+};

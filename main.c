@@ -1,8 +1,6 @@
 #include <stddef.h>
 #include "strfmt.h"
 #include <ctype.h>
-#include "list_vm.h"
-#include <math.h>
 #include "Newton.h"
 #define LIMIT 20
 
@@ -48,7 +46,7 @@ int main()
 					pt = head;
 				}
 				else
-					InsertTail(pt, count, coefficient);
+					InsertTail(&pt, count, coefficient);
 			}
 			//Else make them redo that coefficient
 			else{
@@ -61,7 +59,7 @@ int main()
 	}
 	//Print the user's function
 	printf("Your function is: \n");
-	PrintList(head);
+	PrintList(&head);
 	has_errors = 0;
 	//Obtain the lower bound.
 	while(1){
