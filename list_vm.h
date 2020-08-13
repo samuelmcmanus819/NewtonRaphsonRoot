@@ -21,17 +21,16 @@ void PrintList(struct Node** head)
 	}
 	printf("%d\n", pt->data);
 }
-void PrintListForward(struct Node** head)
-{
-	Node *pt = *head;
-	printf("%d", pt->data);
-	pt = pt->next;
-	while(pt != NULL){
-		printf(" + %dx^%d ", pt->data, pt->key);
-		pt = pt->next;
-	}
-	printf("\n");
-}
+/*
+ * Name: insert_first_node
+ * Purpose: Inserts the first node into a new list
+ * Author: Samuel McManus
+ * @param head: A null pointer used to mark the head node
+ * @param key: The exponent of the node
+ * @param data: The coefficient of the data
+ * Used By: Main, Newton
+ * Date: August 13, 2020
+ */ 
 void insert_first_node(struct Node** head, int key, int data)
 {
 	Node *node = (struct Node*)malloc(sizeof(struct Node));
@@ -61,6 +60,14 @@ void InsertTail(Node** pt, int key, int data)
 	node->next = *pt;
 	(*pt)->previous = node;
 }
+/*
+ * Name: delete_list
+ * Purpose: Deletes a list after we're done using it
+ * Author: Samuel McManus
+ * @param node: the head node of our list
+ * Used By: Newton, main
+ * Date: August 13, 2020
+ */ 
 void delete_list(Node *node)
 {
 	node->previous->next = NULL;
