@@ -13,39 +13,32 @@ void PrintList(struct Node** head)
 {
 	//Set pt to the head node
 	Node *pt = *head;
-	//Read through every node in the list
-	if(pt != NULL){
-		printf("%d", pt->data);
-		pt = pt->next;
+	pt = pt->previous;
+	while(pt->key != 0){
+		if(pt->data != 0)
+			printf(" %dx^%d + ", pt->data, pt->key);
+		pt = pt->previous;
 	}
+	printf("%d\n", pt->data);
+}
+void PrintListForward(struct Node** head)
+{
+	Node *pt = *head;
+	printf("%d", pt->data);
+	pt = pt->next;
 	while(pt != NULL){
-		printf(" + %dx^%d", pt->data, pt->key);
+		printf(" + %dx^%d ", pt->data, pt->key);
 		pt = pt->next;
 	}
 	printf("\n");
 }
-/*
- * Name: InsertHead
- * Purpose: To insert an item at the head of a list
- * Author: Samuel McManus
- * @param head: The head node of the list being passed in
- * @param key: A unique identifier for each member of the list used
- * 	       to hold the exponent of x
- * @param data: The non-unique value in the list used to hold the 
- * 		coefficient of x
- * Used By: main, Newton.h
- * Date: August 12, 2020
- */
-//Takes in the value of head and 2 integers to insert into the head node
-void InsertHead(struct Node** head, int key, int data)
+void insert_first_node(struct Node** head, int key, int data)
 {
-	//Create a new node and set its values
-	struct Node *node = (struct Node*)malloc(sizeof(struct Node));
+	Node *node = (struct Node*)malloc(sizeof(struct Node));
 	node->key = key;
 	node->data = data;
-	//Sets the next node in the list to a pointer to head
-	node->next = *head;
-	//Sets head to the inserted node
+	node->next = node;
+	node->previous = node;
 	*head = node;
 }
 /*
@@ -61,11 +54,21 @@ void InsertHead(struct Node** head, int key, int data)
 void InsertTail(Node** pt, int key, int data)
 {
 	struct Node *node = (struct Node*)malloc(sizeof(struct Node));
-	struct Node *ptPointer = (struct Node*)malloc(sizeof(struct Node));
-	ptPointer = *pt;
 	node->key = key;
 	node->data = data;
-	while(ptPointer->next != NULL)
-		ptPointer = ptPointer->next;
-	ptPointer->next = node;
+	node->previous = (*pt)->previous;
+	(*pt)->previous->next = node;
+	node->next = *pt;
+	(*pt)->previous = node;
+}
+void delete_list(Node *node)
+{
+	node->previous->next = NULL;
+	Node *pt;
+	while(node != NULL){
+		pt = node;
+		node = node->next;
+		free(pt);
+	}
+
 }

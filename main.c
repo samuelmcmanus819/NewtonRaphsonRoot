@@ -42,7 +42,7 @@ int main()
 			if(has_errors == 0){
 				coefficient = atoi(input_holder);
 				if(head == NULL){
-					InsertHead(&head, count, coefficient);
+					insert_first_node(&head, count, coefficient);
 					pt = head;
 				}
 				else
@@ -83,4 +83,5 @@ int main()
 		}
 	}
 	newton((double)x_guess, &head);
+	delete_list(head);
 }

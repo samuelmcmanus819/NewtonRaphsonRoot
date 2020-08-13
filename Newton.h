@@ -20,7 +20,12 @@ double evaluate_function(long double x, Node *head)
 	double temp = 0;
 	//Go through the list setting x to x^key * data
 	//and adding it to solution
-	while(head != NULL){
+	temp = 0;
+	temp = pow(x, (double)head->key);
+	temp = temp * (double)head->data;
+	solution = solution + temp;
+	head = head->next;
+	while(head->key != 0){
 		temp = 0;
 		temp = pow(x, (double)head->key);
 		temp = temp * (double)head->data;
@@ -49,23 +54,21 @@ void get_derivative(Node** f_head, Node** fp_head)
 	Node *f_prime_pt = *fp_head;
 	//The function pointer is set to the node prior to the head node
 	//To mimic x^0 being discarded
-	f_pt = *f_head;
 	f_pt = f_pt->next;
 	f_prime_pt = *fp_head;
 	//The f'() pointer is set to the f'() head node
 	//Take the derivative of every other item in the f() list
 	if(f_pt != NULL){
-		InsertTail(fp_head, (f_pt->key - 1), (f_pt->key * f_pt->data));
+		insert_first_node(fp_head, (f_pt->key - 1), (f_pt->key * f_pt->data));
 		f_pt = f_pt->next;
 	}
 	else{
-		InsertTail(fp_head, 0, 0);
+		insert_first_node(fp_head, (f_pt->key - 1), (f_pt->key * f_pt->data));
 	}
-	while(f_pt != NULL){
+	while(f_pt->key != 0){
 		InsertTail(fp_head, (f_pt->key - 1), (f_pt->key * f_pt->data));
 		f_pt = f_pt->next;
 	}
-	PrintList(fp_head);
 }
 /*
  * Name: get_next_guess
@@ -100,11 +103,10 @@ void newton(long double x_guess, Node** f_head)
 	int cycle_count = 0;
 	long double first_guess;
 	long double next_guess;
+	long double multiplicity = 1.0;
 	//A list of f'() derivatives and coefficients
-	Node *fp_head = (Node*)malloc(sizeof(Node));
+	Node *fp_head = NULL;
 	get_derivative(f_head, &fp_head);
-	PrintList(&fp_head);
-	long double multiplicity = 1;
 	//A function variable holding values related to the user's current
 	//x-guess
 	Function *func = (Function*)malloc(sizeof(Function));
@@ -175,7 +177,6 @@ void newton(long double x_guess, Node** f_head)
 				}
 			}
 		}
-		
 		//Finds next guess incorporating multiplicity.
 		next_guess = get_next_guess(func, multiplicity);
 		if(next_guess == old_func->x)
@@ -199,9 +200,8 @@ void newton(long double x_guess, Node** f_head)
 			exit(0);
 		}	
 	}
-
 	printf("Your root is at: %Lf\n", func->x);
-	free(fp_head);
+	delete_list(fp_head);
 	free(func);
 	free(old_func);
 }

@@ -12,4 +12,5 @@ struct Node
 	int key;
 	int data;
 	Node *next;
+	Node *previous;
 };
